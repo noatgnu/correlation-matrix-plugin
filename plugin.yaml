@@ -4,6 +4,7 @@ plugin:
   name: "Correlation Matrix"
   description: "Generate correlation matrices with customizable visualization options"
   version: "1.0.0"
+  repository: "https://github.com/noatgnu/correlation-matrix-plugin"
   author: "CauldronGO Team"
   category: "visualization"
   icon: "grid_on"
