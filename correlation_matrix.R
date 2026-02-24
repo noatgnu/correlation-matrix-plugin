@@ -110,13 +110,20 @@ max_value <- 1
 color_palette <- strsplit(color_palette_str, ",")[[1]]
 col <- colorRampPalette(color_palette)(200)
 
-output_plot_pdf <- file.path(output_folder, "correlation_matrix.pdf")
-output_plot_svg <- file.path(output_folder, "correlation_matrix.svg")
+is_webr <- exists("webr_shim_env") || Sys.getenv("WEBR") != "" || isTRUE(getOption("webr"))
+
 output_file <- file.path(output_folder, "correlation_matrix.txt")
 
 title_param <- if (plot_title != "") plot_title else NULL
 
-pdf(output_plot_pdf, width = plot_width, height = plot_height)
+if (is_webr) {
+  output_plot <- file.path(output_folder, "correlation_matrix.png")
+  png(output_plot, width = plot_width * 300, height = plot_height * 300, res = 300)
+} else {
+  output_plot_pdf <- file.path(output_folder, "correlation_matrix.pdf")
+  output_plot_svg <- file.path(output_folder, "correlation_matrix.svg")
+  pdf(output_plot_pdf, width = plot_width, height = plot_height)
+}
 
 if (order_method == "hclust") {
   if (add_grid) {
@@ -194,88 +201,94 @@ if (order_method == "hclust") {
 
 dev.off()
 
-svg(output_plot_svg, width = plot_width, height = plot_height)
+if (!is_webr) {
+  svg(output_plot_svg, width = plot_width, height = plot_height)
 
-if (order_method == "hclust") {
-  if (add_grid) {
-    corrplot(
-      as.matrix(data),
-      order = order_method,
-      hclust.method = hclust_method,
-      method = presenting_method,
-      type = cor_shape,
-      is.corr = FALSE,
-      col.lim = c(min_value, max_value),
-      col = col,
-      tl.cex = text_label_size,
-      number.cex = number_label_size,
-      tl.srt = label_rotation,
-      diag = show_diagonal,
-      addgrid.col = grid_color,
-      number.digits = number_digits,
-      title = title_param
-    )
+  if (order_method == "hclust") {
+    if (add_grid) {
+      corrplot(
+        as.matrix(data),
+        order = order_method,
+        hclust.method = hclust_method,
+        method = presenting_method,
+        type = cor_shape,
+        is.corr = FALSE,
+        col.lim = c(min_value, max_value),
+        col = col,
+        tl.cex = text_label_size,
+        number.cex = number_label_size,
+        tl.srt = label_rotation,
+        diag = show_diagonal,
+        addgrid.col = grid_color,
+        number.digits = number_digits,
+        title = title_param
+      )
+    } else {
+      corrplot(
+        as.matrix(data),
+        order = order_method,
+        hclust.method = hclust_method,
+        method = presenting_method,
+        type = cor_shape,
+        is.corr = FALSE,
+        col.lim = c(min_value, max_value),
+        col = col,
+        tl.cex = text_label_size,
+        number.cex = number_label_size,
+        tl.srt = label_rotation,
+        diag = show_diagonal,
+        number.digits = number_digits,
+        title = title_param
+      )
+    }
   } else {
-    corrplot(
-      as.matrix(data),
-      order = order_method,
-      hclust.method = hclust_method,
-      method = presenting_method,
-      type = cor_shape,
-      is.corr = FALSE,
-      col.lim = c(min_value, max_value),
-      col = col,
-      tl.cex = text_label_size,
-      number.cex = number_label_size,
-      tl.srt = label_rotation,
-      diag = show_diagonal,
-      number.digits = number_digits,
-      title = title_param
-    )
+    if (add_grid) {
+      corrplot(
+        as.matrix(data),
+        order = order_method,
+        method = presenting_method,
+        type = cor_shape,
+        is.corr = FALSE,
+        col.lim = c(min_value, max_value),
+        col = col,
+        tl.cex = text_label_size,
+        number.cex = number_label_size,
+        tl.srt = label_rotation,
+        diag = show_diagonal,
+        addgrid.col = grid_color,
+        number.digits = number_digits,
+        title = title_param
+      )
+    } else {
+      corrplot(
+        as.matrix(data),
+        order = order_method,
+        method = presenting_method,
+        type = cor_shape,
+        is.corr = FALSE,
+        col.lim = c(min_value, max_value),
+        col = col,
+        tl.cex = text_label_size,
+        number.cex = number_label_size,
+        tl.srt = label_rotation,
+        diag = show_diagonal,
+        number.digits = number_digits,
+        title = title_param
+      )
+    }
   }
-} else {
-  if (add_grid) {
-    corrplot(
-      as.matrix(data),
-      order = order_method,
-      method = presenting_method,
-      type = cor_shape,
-      is.corr = FALSE,
-      col.lim = c(min_value, max_value),
-      col = col,
-      tl.cex = text_label_size,
-      number.cex = number_label_size,
-      tl.srt = label_rotation,
-      diag = show_diagonal,
-      addgrid.col = grid_color,
-      number.digits = number_digits,
-      title = title_param
-    )
-  } else {
-    corrplot(
-      as.matrix(data),
-      order = order_method,
-      method = presenting_method,
-      type = cor_shape,
-      is.corr = FALSE,
-      col.lim = c(min_value, max_value),
-      col = col,
-      tl.cex = text_label_size,
-      number.cex = number_label_size,
-      tl.srt = label_rotation,
-      diag = show_diagonal,
-      number.digits = number_digits,
-      title = title_param
-    )
-  }
+
+  dev.off()
 }
-
-dev.off()
 
 cor_pos <- cor_result$corrPos
 write.table(cor_pos, file = output_file, sep = "\t", quote = FALSE, row.names = TRUE)
 
 cat("Correlation matrix analysis completed successfully\n")
-cat(paste("PDF plot saved to:", output_plot_pdf, "\n"))
-cat(paste("SVG plot saved to:", output_plot_svg, "\n"))
+if (is_webr) {
+  cat(paste("PNG plot saved to:", output_plot, "\n"))
+} else {
+  cat(paste("PDF plot saved to:", output_plot_pdf, "\n"))
+  cat(paste("SVG plot saved to:", output_plot_svg, "\n"))
+}
 cat(paste("Data saved to:", output_file, "\n"))

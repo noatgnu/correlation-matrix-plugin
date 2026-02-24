@@ -1,5 +1,19 @@
 # Correlation Matrix
 
+
+## Installation
+
+**[⬇️ Click here to install in Cauldron](http://localhost:50060/install?repo=https%3A%2F%2Fgithub.com%2Fnoatgnu%2Fcorrelation-matrix-plugin)** _(requires Cauldron to be running)_
+
+> **Repository**: `https://github.com/noatgnu/correlation-matrix-plugin`
+
+**Manual installation:**
+
+1. Open Cauldron
+2. Go to **Plugins** → **Install from Repository**
+3. Paste: `https://github.com/noatgnu/correlation-matrix-plugin`
+4. Click **Install**
+
 **ID**: `correlation-matrix`  
 **Version**: 1.0.0  
 **Category**: visualization  
@@ -11,8 +25,9 @@ Generate correlation matrices with customizable visualization options
 
 ## Runtime
 
-- **Type**: `r`
-- **Script**: `correlation_matrix.R`
+- **Environments**: `r`
+
+- **Entrypoint**: `correlation_matrix.R`
 
 ## Inputs
 
@@ -186,28 +201,34 @@ This plugin generates 1 plot(s):
 
 ## Requirements
 
-- **R**: >=4.0
-- **Packages**:
-  - corrplot
-  - RColorBrewer
+- **R Version**: >=4.0
+
+### Package Dependencies (Inline)
+
+Packages are defined inline in the plugin configuration:
+
+- `corrplot`
+- `RColorBrewer`
+
+> **Note**: When you create a custom environment for this plugin, these dependencies will be automatically installed.
 
 ## Example Data
 
 This plugin includes example data for testing:
 
 ```yaml
-  sample_cols_source: diann/imputed.data.txt
+  use_basename: true
+  max_label_length: 50
   sample_cols: [C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_03.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_03.raw]
   index_col: Precursor.Id
+  order: hclust
+  cor_shape: upper
+  color_ramp_palette: #053061,#2166AC,#4393C3,#92C5DE,#D1E5F0,#FFFFFF,#FDDBC7,#F4A582,#D6604D,#B2182B,#67001F
+  input_file: diann/imputed.data.txt
+  sample_cols_source: diann/imputed.data.txt
   method: pearson
   hclust_method: ward.D
   presenting_method: ellipse
-  cor_shape: upper
-  order: hclust
-  color_ramp_palette: #053061,#2166AC,#4393C3,#92C5DE,#D1E5F0,#FFFFFF,#FDDBC7,#F4A582,#D6604D,#B2182B,#67001F
-  use_basename: true
-  max_label_length: 50
-  input_file: diann/imputed.data.txt
 ```
 
 Load example data by clicking the **Load Example** button in the UI.

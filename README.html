@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plugin Documentation</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 {
+            border-bottom: 2px solid #2196f3;
+            padding-bottom: 10px;
+            color: #1976d2;
+        }
+        h2 {
+            margin-top: 30px;
+            color: #1976d2;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        h3 {
+            margin-top: 20px;
+            color: #424242;
+        }
+        h4 {
+            color: #616161;
+        }
+        a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        blockquote {
+            border-left: 4px solid #2196f3;
+            margin: 0;
+            padding-left: 15px;
+            color: #666;
+            background: #f5f9fc;
+            padding: 10px 15px;
+            border-radius: 4px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #2196f3;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        li {
+            margin: 5px 0;
+        }
+        strong {
+            font-weight: 600;
+            color: #1976d2;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+<h1 id="correlation-matrix">Correlation Matrix</h1>
+<h2 id="installation">Installation</h2>
+<p><a href="cauldron://install?repo=https%3A%2F%2Fgithub.com%2Fnoatgnu%2Fcorrelation-matrix-plugin">⬇️ <strong>Click here to install in Cauldron</strong></a></p>
+<blockquote>
+<p><strong>Repository</strong>: <code>https://github.com/noatgnu/correlation-matrix-plugin</code></p>
+</blockquote>
+<p><strong>Manual installation:</strong></p>
+<ol>
+<li>Open Cauldron</li>
+<li>Go to <strong>Plugins</strong> → <strong>Install from Repository</strong></li>
+<li>Paste: <code>https://github.com/noatgnu/correlation-matrix-plugin</code></li>
+<li>Click <strong>Install</strong></li>
+</ol>
+<p><strong>ID</strong>: <code>correlation-matrix</code><br>
+<strong>Version</strong>: 1.0.0<br>
+<strong>Category</strong>: visualization<br>
+<strong>Author</strong>: CauldronGO Team</p>
+<h2 id="description">Description</h2>
+<p>Generate correlation matrices with customizable visualization options</p>
+<h2 id="runtime">Runtime</h2>
+<ul>
+<li>
+<p><strong>Environments</strong>: <code>r</code></p>
+</li>
+<li>
+<p><strong>Entrypoint</strong>: <code>correlation_matrix.R</code></p>
+</li>
+</ul>
+<h2 id="inputs">Inputs</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Label</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Visibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input_file</code></td>
+<td>Input File</td>
+<td>file</td>
+<td>Yes</td>
+<td>-</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>index_col</code></td>
+<td>Index Column</td>
+<td>text</td>
+<td>No</td>
+<td>-</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>sample_cols</code></td>
+<td>Sample Columns</td>
+<td>column-selector (multiple)</td>
+<td>Yes</td>
+<td>-</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td>Correlation Method</td>
+<td>select (pearson, spearman, kendall)</td>
+<td>No</td>
+<td>pearson</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>min_value</code></td>
+<td>Minimum Value</td>
+<td>number</td>
+<td>No</td>
+<td>0</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td>Order</td>
+<td>select (original, AOE, FPC, hclust, alphabet)</td>
+<td>No</td>
+<td>-</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>hclust_method</code></td>
+<td>Hierarchical Clustering Method</td>
+<td>select (ward.D, ward.D2, single, complete, average, mcquitty, median, centroid)</td>
+<td>No</td>
+<td>ward.D</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>presenting_method</code></td>
+<td>Presentation Method</td>
+<td>select (circle, square, ellipse, number, shade, color, pie)</td>
+<td>No</td>
+<td>ellipse</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>cor_shape</code></td>
+<td>Correlation Shape</td>
+<td>select (full, upper, lower)</td>
+<td>No</td>
+<td>upper</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>plot_only</code></td>
+<td>Plot Only (Skip Correlation)</td>
+<td>boolean</td>
+<td>No</td>
+<td>false</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>color_ramp_palette</code></td>
+<td>Color Palette</td>
+<td>text</td>
+<td>No</td>
+<td>-</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>plot_width</code></td>
+<td>Plot Width</td>
+<td>number (min: 5, max: 30)</td>
+<td>No</td>
+<td>10</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>plot_height</code></td>
+<td>Plot Height</td>
+<td>number (min: 5, max: 30)</td>
+<td>No</td>
+<td>10</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>text_label_size</code></td>
+<td>Text Label Size</td>
+<td>number (min: 0, max: 5, step: 0)</td>
+<td>No</td>
+<td>1</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>number_label_size</code></td>
+<td>Number Label Size</td>
+<td>number (min: 0, max: 5, step: 0)</td>
+<td>No</td>
+<td>1</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>label_rotation</code></td>
+<td>Label Rotation</td>
+<td>number (min: 0, max: 90, step: 5)</td>
+<td>No</td>
+<td>45</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>show_diagonal</code></td>
+<td>Show Diagonal</td>
+<td>boolean</td>
+<td>No</td>
+<td>true</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>add_grid</code></td>
+<td>Add Grid</td>
+<td>boolean</td>
+<td>No</td>
+<td>false</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>grid_color</code></td>
+<td>Grid Color</td>
+<td>text</td>
+<td>No</td>
+<td>black</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>number_digits</code></td>
+<td>Number of Digits</td>
+<td>number (min: 0, max: 5, step: 1)</td>
+<td>No</td>
+<td>2</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>plot_title</code></td>
+<td>Plot Title</td>
+<td>text</td>
+<td>No</td>
+<td>-</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>use_basename</code></td>
+<td>Use Basename Only</td>
+<td>boolean</td>
+<td>No</td>
+<td>true</td>
+<td>Always visible</td>
+</tr>
+<tr>
+<td><code>max_label_length</code></td>
+<td>Max Label Length</td>
+<td>number (min: 10, max: 200, step: 5)</td>
+<td>No</td>
+<td>50</td>
+<td>Always visible</td>
+</tr>
+</tbody>
+</table>
+<h3 id="input-details">Input Details</h3>
+<h4 id="input-file-input-file">Input File (<code>input_file</code>)</h4>
+<p>Data file for correlation analysis</p>
+<h4 id="index-column-index-col">Index Column (<code>index_col</code>)</h4>
+<p>Column name to use as row identifier</p>
+<h4 id="sample-columns-sample-cols">Sample Columns (<code>sample_cols</code>)</h4>
+<p>Columns to include in correlation analysis</p>
+<ul>
+<li><strong>Column Source</strong>: <code>input_file</code></li>
+</ul>
+<h4 id="correlation-method-method">Correlation Method (<code>method</code>)</h4>
+<p>Method for calculating correlations</p>
+<ul>
+<li><strong>Options</strong>: <code>pearson</code>, <code>spearman</code>, <code>kendall</code></li>
+</ul>
+<h4 id="minimum-value-min-value">Minimum Value (<code>min_value</code>)</h4>
+<p>Minimum value for filtering</p>
+<h4 id="order-order">Order (<code>order</code>)</h4>
+<p>Ordering method for variables</p>
+<ul>
+<li><strong>Options</strong>: <code>original</code>, <code>AOE</code>, <code>FPC</code>, <code>hclust</code>, <code>alphabet</code></li>
+</ul>
+<h4 id="hierarchical-clustering-method-hclust-method">Hierarchical Clustering Method (<code>hclust_method</code>)</h4>
+<p>Method for hierarchical clustering</p>
+<ul>
+<li><strong>Options</strong>: <code>ward.D</code>, <code>ward.D2</code>, <code>single</code>, <code>complete</code>, <code>average</code>, <code>mcquitty</code>, <code>median</code>, <code>centroid</code></li>
+</ul>
+<h4 id="presentation-method-presenting-method">Presentation Method (<code>presenting_method</code>)</h4>
+<p>Visual representation of correlations</p>
+<ul>
+<li><strong>Options</strong>: <code>circle</code>, <code>square</code>, <code>ellipse</code>, <code>number</code>, <code>shade</code>, <code>color</code>, <code>pie</code></li>
+</ul>
+<h4 id="correlation-shape-cor-shape">Correlation Shape (<code>cor_shape</code>)</h4>
+<p>Which part of the matrix to display</p>
+<ul>
+<li><strong>Options</strong>: <code>full</code>, <code>upper</code>, <code>lower</code></li>
+</ul>
+<h4 id="plot-only-skip-correlation-plot-only">Plot Only (Skip Correlation) (<code>plot_only</code>)</h4>
+<p>Plot the input data directly without computing correlations</p>
+<h4 id="color-palette-color-ramp-palette">Color Palette (<code>color_ramp_palette</code>)</h4>
+<p>Color palette for the plot</p>
+<ul>
+<li><strong>Placeholder</strong>: <code>RdYlBu,Blues,Greens</code></li>
+</ul>
+<h4 id="plot-width-plot-width">Plot Width (<code>plot_width</code>)</h4>
+<p>Width of the plot in inches</p>
+<h4 id="plot-height-plot-height">Plot Height (<code>plot_height</code>)</h4>
+<p>Height of the plot in inches</p>
+<h4 id="text-label-size-text-label-size">Text Label Size (<code>text_label_size</code>)</h4>
+<p>Size of text labels</p>
+<h4 id="number-label-size-number-label-size">Number Label Size (<code>number_label_size</code>)</h4>
+<p>Size of correlation coefficient numbers</p>
+<h4 id="label-rotation-label-rotation">Label Rotation (<code>label_rotation</code>)</h4>
+<p>Rotation angle for labels in degrees</p>
+<h4 id="show-diagonal-show-diagonal">Show Diagonal (<code>show_diagonal</code>)</h4>
+<p>Show the diagonal of the correlation matrix</p>
+<h4 id="add-grid-add-grid">Add Grid (<code>add_grid</code>)</h4>
+<p>Add grid lines to the plot</p>
+<h4 id="grid-color-grid-color">Grid Color (<code>grid_color</code>)</h4>
+<p>Color of grid lines (if enabled)</p>
+<h4 id="number-of-digits-number-digits">Number of Digits (<code>number_digits</code>)</h4>
+<p>Decimal places for correlation coefficients</p>
+<h4 id="plot-title-plot-title">Plot Title (<code>plot_title</code>)</h4>
+<p>Title for the correlation plot</p>
+<h4 id="use-basename-only-use-basename">Use Basename Only (<code>use_basename</code>)</h4>
+<p>Extract only the filename from full file paths</p>
+<h4 id="max-label-length-max-label-length">Max Label Length (<code>max_label_length</code>)</h4>
+<p>Maximum length for axis labels (characters)</p>
+<h2 id="outputs">Outputs</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>File</th>
+<th>Type</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>correlation_matrix</code></td>
+<td><code>correlation_matrix.txt</code></td>
+<td>data</td>
+<td>tsv</td>
+<td>Correlation matrix values</td>
+</tr>
+<tr>
+<td><code>correlation_plot_pdf</code></td>
+<td><code>correlation_matrix.pdf</code></td>
+<td>image</td>
+<td>pdf</td>
+<td>Correlation matrix visualization (PDF)</td>
+</tr>
+<tr>
+<td><code>correlation_plot_svg</code></td>
+<td><code>correlation_matrix.svg</code></td>
+<td>image</td>
+<td>svg</td>
+<td>Correlation matrix visualization (SVG)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="visualizations">Visualizations</h2>
+<p>This plugin generates 1 plot(s):</p>
+<h3 id="correlation-matrix-correlation-plot">Correlation Matrix (<code>correlation_plot</code>)</h3>
+<ul>
+<li><strong>Type</strong>: image-grid</li>
+<li><strong>Data Source</strong>: <code>correlation_plot_svg</code></li>
+<li><strong>Image Pattern</strong>: <code>*.svg</code></li>
+</ul>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li><strong>R Version</strong>: &gt;=4.0</li>
+</ul>
+<h3 id="package-dependencies-inline">Package Dependencies (Inline)</h3>
+<p>Packages are defined inline in the plugin configuration:</p>
+<ul>
+<li><code>corrplot</code></li>
+<li><code>RColorBrewer</code></li>
+</ul>
+<blockquote>
+<p><strong>Note</strong>: When you create a custom environment for this plugin, these dependencies will be automatically installed.</p>
+</blockquote>
+<h2 id="example-data">Example Data</h2>
+<p>This plugin includes example data for testing:</p>
+<pre><code class="language-yaml">  order: hclust
+  cor_shape: upper
+  color_ramp_palette: #053061,#2166AC,#4393C3,#92C5DE,#D1E5F0,#FFFFFF,#FDDBC7,#F4A582,#D6604D,#B2182B,#67001F
+  input_file: diann/imputed.data.txt
+  sample_cols_source: diann/imputed.data.txt
+  method: pearson
+  hclust_method: ward.D
+  presenting_method: ellipse
+  use_basename: true
+  max_label_length: 50
+  sample_cols: [C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_03.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_03.raw]
+  index_col: Precursor.Id
+</code></pre>
+<p>Load example data by clicking the <strong>Load Example</strong> button in the UI.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="via-ui">Via UI</h3>
+<ol>
+<li>Navigate to <strong>visualization</strong> → <strong>Correlation Matrix</strong></li>
+<li>Fill in the required inputs</li>
+<li>Click <strong>Run Analysis</strong></li>
+</ol>
+<h3 id="via-plugin-system">Via Plugin System</h3>
+<pre><code class="language-typescript">const jobId = await pluginService.executePlugin('correlation-matrix', {
+  // Add parameters here
+});
+</code></pre>
+
+</body>
+</html>
