@@ -296,9 +296,9 @@
 <tr>
 <td><code>grid_color</code></td>
 <td>Grid Color</td>
-<td>text</td>
+<td>color (color picker)</td>
 <td>No</td>
-<td>black</td>
+<td>#000000</td>
 <td>Always visible</td>
 </tr>
 <tr>
@@ -395,6 +395,9 @@
 <p>Add grid lines to the plot</p>
 <h4 id="grid-color-grid-color">Grid Color (<code>grid_color</code>)</h4>
 <p>Color of grid lines (if enabled)</p>
+<ul>
+<li><strong>Input Type</strong>: Color picker for selecting a single color value</li>
+</ul>
 <h4 id="number-of-digits-number-digits">Number of Digits (<code>number_digits</code>)</h4>
 <p>Decimal places for correlation coefficients</p>
 <h4 id="plot-title-plot-title">Plot Title (<code>plot_title</code>)</h4>
@@ -461,18 +464,18 @@
 </blockquote>
 <h2 id="example-data">Example Data</h2>
 <p>This plugin includes example data for testing:</p>
-<pre><code class="language-yaml">  order: hclust
+<pre><code class="language-yaml">  max_label_length: 50
+  index_col: Precursor.Id
+  method: pearson
+  order: hclust
   cor_shape: upper
-  color_ramp_palette: #053061,#2166AC,#4393C3,#92C5DE,#D1E5F0,#FFFFFF,#FDDBC7,#F4A582,#D6604D,#B2182B,#67001F
+  use_basename: true
   input_file: diann/imputed.data.txt
   sample_cols_source: diann/imputed.data.txt
-  method: pearson
+  sample_cols: [C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_03.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_03.raw]
   hclust_method: ward.D
   presenting_method: ellipse
-  use_basename: true
-  max_label_length: 50
-  sample_cols: [C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_03.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_03.raw]
-  index_col: Precursor.Id
+  color_ramp_palette: #053061,#2166AC,#4393C3,#92C5DE,#D1E5F0,#FFFFFF,#FDDBC7,#F4A582,#D6604D,#B2182B,#67001F
 </code></pre>
 <p>Load example data by clicking the <strong>Load Example</strong> button in the UI.</p>
 <h2 id="usage">Usage</h2>

@@ -51,7 +51,7 @@ Generate correlation matrices with customizable visualization options
 | `label_rotation` | Label Rotation | number (min: 0, max: 90, step: 5) | No | 45 | Always visible |
 | `show_diagonal` | Show Diagonal | boolean | No | true | Always visible |
 | `add_grid` | Add Grid | boolean | No | false | Always visible |
-| `grid_color` | Grid Color | text | No | black | Always visible |
+| `grid_color` | Grid Color | color (color picker) | No | #000000 | Always visible |
 | `number_digits` | Number of Digits | number (min: 0, max: 5, step: 1) | No | 2 | Always visible |
 | `plot_title` | Plot Title | text | No | - | Always visible |
 | `use_basename` | Use Basename Only | boolean | No | true | Always visible |
@@ -160,6 +160,7 @@ Add grid lines to the plot
 
 Color of grid lines (if enabled)
 
+- **Input Type**: Color picker for selecting a single color value
 
 #### Number of Digits (`number_digits`)
 
@@ -217,18 +218,18 @@ Packages are defined inline in the plugin configuration:
 This plugin includes example data for testing:
 
 ```yaml
-  use_basename: true
+  presenting_method: ellipse
+  color_ramp_palette: #053061,#2166AC,#4393C3,#92C5DE,#D1E5F0,#FFFFFF,#FDDBC7,#F4A582,#D6604D,#B2182B,#67001F
   max_label_length: 50
-  sample_cols: [C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_03.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_03.raw]
   index_col: Precursor.Id
+  method: pearson
   order: hclust
   cor_shape: upper
-  color_ramp_palette: #053061,#2166AC,#4393C3,#92C5DE,#D1E5F0,#FFFFFF,#FDDBC7,#F4A582,#D6604D,#B2182B,#67001F
+  use_basename: true
   input_file: diann/imputed.data.txt
   sample_cols_source: diann/imputed.data.txt
-  method: pearson
+  sample_cols: [C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-IP_03.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_01.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_02.raw C:\Raja\DIA-NN searches\June 2022\LT-CBQCA-Test_DIA\RN-DS_220106_BCA_LT-MockIP_03.raw]
   hclust_method: ward.D
-  presenting_method: ellipse
 ```
 
 Load example data by clicking the **Load Example** button in the UI.

@@ -173,8 +173,8 @@ inputs:
 
   - name: "grid_color"
     label: "Grid Color"
-    type: "text"
-    default: "black"
+    type: "color"
+    default: "#000000"
     description: "Color of grid lines (if enabled)"
 
   - name: "number_digits"
